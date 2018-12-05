@@ -1,0 +1,39 @@
+
+LoadKey：20 00 20 06 F5 79 ED D8 9F 77 88 03
+GetCardSnr：20 00 21 01 00 DF 03//激活卡片并获取卡号
+readBlock：	20 00 22 01 14 C8 03
+			20 00 22 01 15 C9 03
+			20 00 22 01 16 CA 03
+
+			20 00 22 01 10 Cc 03
+			20 00 22 01 12 Ce 03
+			20 00 22 01 11 Cd 03
+			20 00 22 01 18 C4 03
+			20 00 22 01 19 c5 03
+			20 00 22 01 1b C7 03
+WriteBlock：
+20 00 23 11 14 DF 00 77 B1 DA 1B 4D 9F 9A A3 BC 58 9D 93 30 00 30 03
+20 00 23 11 15 AA AA AA AA AA AA AA AA AA AA AA AA AA AA AA AA d8 03
+20 00 23 11 16 00 01 00 05 FF FF FF FF FF FF FF FF FF FF FF FF df 03
+20 00 23 11 16 FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF db 03
+20 00 23 11 10 11 22 33 44 55 66 77 88 99 00 00 00 00 00 00 AA 66 03
+20 00 23 11 18 01 02 03 00 00 00 00 00 00 00 00 00 00 00 00 AA 7f 03
+//写doorID
+20 00 23 11 19 69 93 46 ca 75 fb 4e 7a bb 5d 84 f5 a5 2f 06 c2 c1 03//开发环境
+20 00 23 11 19 83 33 ea 60 03 d7 4c 8d 8f 79 ff 40 cd cc 7d 3e f0 03//测试环境
+20 00 23 11 19 03 fc 1a 7b 9b dd 4c 4d b1 b3 38 1d a9 18 d4 1a 55 03//测试环境
+20 00 23 11 19 66 e6 d7 f2 49 f4 43 49 8b 7e 8f e2 93 fe 18 11 3a 03//外网测试环境
+
+20 01 20 06 FF FF FF FF FF FF d8 03//加载默认key到读卡器
+20 00 23 11 1B F5 79 ED D8 9F 77 FF 07 80 69 FF FF FF FF FF FF 1E 03//设置扇区6 key，设置前先加载默认key到读卡器
+
+DetectCard/*自动寻卡*/：20 00 25 01 00 DB 03/*寻IDLE卡*/
+						20 ff 25 01 01 25 03/*寻All卡*/
+						
+SetBaudRate:20 00 2f 04 00 01 c2 00 17 03/*设置波特率115200*/
+
+
+enterBootloader：20 00 30 01 00 CE 03 //进入bootloader
+
+20 00 31 05 AA BB CC DD EE 25 03 //bootloader模式下接收到升级数据
+
