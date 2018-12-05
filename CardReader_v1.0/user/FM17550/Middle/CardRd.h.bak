@@ -43,7 +43,6 @@ descriptionï¼typedef definitions
 descriptionï¼variable External declaration
 *******************************************************/
 extern unsigned char  SaCardRd_u_PDfultKey[6];
-extern unsigned char  SaCardRd_u_PDfultKeyB[6];
 /*******************************************************
 descriptionï¼function External declaration
 *******************************************************/

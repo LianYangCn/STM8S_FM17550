@@ -63,7 +63,7 @@ void InitTx522b_parameter(void)
 	
 	SeTx522b_dw_RcovrAutoDtctT =0U;
 	SeTx522b_dw_DelayTimer = 0U;
-	SeTx522b_u_AutoDtctFlag = 0U;/*未读到有效值，给默认值--不开启自动寻卡*/
+	SeTx522b_u_AutoDtctFlag = 1U;/*未读到有效值，给默认值--开启自动寻卡*/
 	//SeTx522b_u_FirstDtctFlag = 0U;
 	//SeTx522b_u_UnDtctCnt = 0U;
 	for(Le_u_i = 0U;Le_u_i < TXBUFF_NUM;Le_u_i++)
@@ -106,7 +106,7 @@ void Tx522b_MainFunction(void)
 		if(SeTx522b_dw_RcovrAutoDtctT >= 0x0003DFAF)
 		{
 			SeTx522b_dw_RcovrAutoDtctT = 0U;			
-			//SeTx522b_u_AutoDtctFlag = 1U;//取消自动寻卡
+			SeTx522b_u_AutoDtctFlag = 1U;
 		}
 		else
 		{
@@ -168,17 +168,16 @@ static void Tx522b_CmdDeal(void)
 			SeTx522b_u_AutoDtctFlag = 0U;/*退出自动侦测卡片*/
 			for(LeTx_u_i = 0U;LeTx_u_i < RxMsg.Dt.DtSrt.DtLng;LeTx_u_i++)
 			{
-				if(LeTx_u_i <= 5U)
-				{//更新KeyA
-					SaCardRd_u_PDfultKey[LeTx_u_i] = RxMsg.Dt.DtSrt.ValidDt[LeTx_u_i];
-				}
-				else
-				{//更新KeyB
-					SaCardRd_u_PDfultKeyB[LeTx_u_i -6U] = RxMsg.Dt.DtSrt.ValidDt[LeTx_u_i];
-				}
+				SaCardRd_u_PDfultKey[LeTx_u_i] = RxMsg.Dt.DtSrt.ValidDt[LeTx_u_i];
 			}
-
-			LaTx_u_SendBuff[1] = COMM_OK;
+			if(1U == Tx522bCfg_WriteEE(Tx522bCfg_Key,RxMsg.Dt.DtSrt.ValidDt,RxMsg.Dt.DtSrt.DtLng))/*写密钥成功*/
+			{
+				LaTx_u_SendBuff[1] = COMM_OK;
+			}
+			else
+			{
+				LaTx_u_SendBuff[1] = COMM_ERR;
+			}
 			LaTx_u_SendBuff[2] = 0;/*有效数据0长度*/
 			LaTx_u_SendBuff[3] = CalTx522b_u_XOR(LaTx_u_SendBuff,3);/*计算校验和*/
 			LeTx_u_Lng = 4U;
