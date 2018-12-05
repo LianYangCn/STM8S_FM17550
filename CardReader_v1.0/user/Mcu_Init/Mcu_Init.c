@@ -28,7 +28,6 @@ description： function declaration
 /*Global function declaration*/
 
 /*Static function declaration*/
-//static SeMcu_Init_BaudRate;
 
 /******************************************************
 description： function code
@@ -54,32 +53,12 @@ void Mcu_Init(void)
 	
 	/*uart初始化*/
 	UART1_DeInit();
-	UART1_Init((uint32_t)9600,UART1_WORDLENGTH_8D,UART1_STOPBITS_1,UART1_PARITY_NO,UART1_SYNCMODE_CLOCK_DISABLE,UART1_MODE_TXRX_ENABLE);
+	UART1_Init((uint32_t)115200,UART1_WORDLENGTH_8D,UART1_STOPBITS_1,UART1_PARITY_NO,UART1_SYNCMODE_CLOCK_DISABLE,UART1_MODE_TXRX_ENABLE);
         UART1->CR2 &= (uint8_t)(~0x80);/* 禁止发送寄存器空中断 */
 	UART1->CR2 &= (uint8_t)(~UART1_CR2_TEN);/* 禁止发送 */
 	UART1->CR2 |= (uint8_t)0x20; /* 接收中断请求 */
 	UART1->CR2 |= (uint8_t)UART1_CR2_REN; /* 允许接收 */
 	UART1_Cmd(ENABLE);	/* Enable the UART1*/
-#if 0       
-	//UART1->BRR2 = 0x02;/*9600波特率*/
-	//UART1->BRR1 = 0x68;
-	if(1U == MemIf_ReadEE(EepromCfg_UartBaudrate,Le_u_BaudRate,4U))
-	{
-		Mcu_Init_SetBaudRtae(*((uint32 *)(&Le_u_BaudRate[0U])));
-	}
-	else
-	{
-		Mcu_Init_SetBaudRtae(9600);/*设置默认波特率9600bit/s*/
-	}
-    UART1->CR1 = 0x00; 
-    UART1->CR2 |= (uint8_t)(UART1_CR2_TEN | UART1_CR2_REN);  
-    UART1->CR3 = 0x00; 
-	UART1->CR2 &= (uint8_t)(~0x80);/* 禁止发送寄存器空中断 */
-	UART1->CR2 &= (uint8_t)(~UART1_CR2_TEN);/* 禁止发送 */
-	UART1->CR2 |= (uint8_t)0x20; /* 接收中断请求 */
-	UART1->CR2 |= (uint8_t)UART1_CR2_REN; /* 允许接收 */
-	UART1->CR1 &= (uint8_t)(~UART1_CR1_UARTD);/* Enable the UART1*/ 
-#endif
 
 	/* SPI初始化 */
 	SPI_DeInit();
@@ -120,27 +99,3 @@ void Mcu_Init(void)
    	enableInterrupts();/*全局总中断*/     
 	
 }
-
-
-
-void Mcu_Init_SetBaudRtae(uint32 BaudRate)
-{
-	uint32 BaudRate_Mantissa = 0, BaudRate_Mantissa100 = 0;
-	
-	/* Clear the LSB mantissa of UART1DIV  */
-	UART1->BRR1 &= (uint8)(~UART1_BRR1_DIVM);  
-	/* Clear the MSB mantissa of UART1DIV  */
-	UART1->BRR2 &= (uint8)(~UART1_BRR2_DIVM);  
-	/* Clear the Fraction bits of UART1DIV */
-	UART1->BRR2 &= (uint8)(~UART1_BRR2_DIVF);  
-	/* Set the UART1 BaudRates in BRR1 and BRR2 registers according to UART1_BaudRate value */
-	BaudRate_Mantissa    = ((uint32)CLK_GetClockFreq() / (BaudRate << 4));
-	BaudRate_Mantissa100 = (((uint32)CLK_GetClockFreq() * 100) / (BaudRate << 4));
-	/* Set the fraction of UART1DIV  */
-	UART1->BRR2 |= (uint8)((uint8)(((BaudRate_Mantissa100 - (BaudRate_Mantissa * 100)) << 4) / 100) & (uint8)0x0F); 
-	/* Set the MSB mantissa of UART1DIV  */
-	UART1->BRR2 |= (uint8)((BaudRate_Mantissa >> 4) & (uint8)0xF0); 
-	/* Set the LSB mantissa of UART1DIV  */
-	UART1->BRR1 |= (uint8)BaudRate_Mantissa;	
-}
-
