@@ -20,8 +20,7 @@ const EepromCfg_ConfStruct    CaEepromCfg_Conf[EE_OBJECT_NUM] =
 	
 	{EepromCfg_IntEE,EE_AUTO_DECT_ADDR,EE_AUTO_DECT_LNG,EE_AUTO_DECT_MASK},//卡片自动侦测
 	{EepromCfg_IntEE,EE_KEY_ADDR,EE_KEY_LNG,EE_KEY_MASK},//密钥
-	{EepromCfg_IntEE,EE_BAUD_RATE_ADDR,EE_BAUD_RATE_LNG,EE_BAUD_RATE_MASK},//串口波特率
-	{EepromCfg_IntEE,EE_IAP_FLAG_ADDR,1U,EE_IAP_MASK}//在线升级
+	{EepromCfg_IntEE,EE_BAUD_RATE_ADDR,EE_BAUD_RATE_LNG,EE_BAUD_RATE_MASK}//串口波特率
 };
 
 /*******************************************************

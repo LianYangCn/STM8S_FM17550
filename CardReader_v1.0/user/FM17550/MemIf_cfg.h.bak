@@ -39,10 +39,9 @@ bit3~bit7预留
 #define EE_AUTO_DECT_MASK      0x01//卡片自动侦测标志数据对应的有效性标志位掩码
 #define EE_KEY_MASK      	   0x02//密钥数据对应的有效性标志位掩码
 #define EE_BAUD_RATE_MASK      0x04//波特率数据对应的有效性标志位掩码
-#define EE_IAP_MASK      	   0x08//在线升级标志位掩码
 /********************************************************/
 
-//#define EE_OBJECT_NUM           3U
+#define EE_OBJECT_NUM           3U
 
 #define EE_AUTO_DECT_OFFSET     1U//卡片自动侦测标志地址相对于EE起始地址偏移量
 #define EE_AUTO_DECT_LNG     	1U//卡片自动侦测标志数据段长度
@@ -56,7 +55,7 @@ bit3~bit7预留
 #define EE_BAUD_RATE_LNG     	4U//波特率数据段长度
 #define EE_BAUD_RATE_ADDR       (EEPROM_START_ADDR +EE_BAUD_RATE_OFFSET)//波特率数据段起始地址
 
-#define EE_IAP_FLAG_ADDR       	0x00004021//在线升级标志信息地址
+
 
 /***********宏函敪*********/
 
@@ -81,9 +80,7 @@ typedef enum
 {
 	EepromCfg_AutoDectFlg = 0U,/*卡片自动侦测标志值*/
 	EepromCfg_Key = 1U,/*密钥*/
-	EepromCfg_UartBaudrate = 2,/*波特率*/
-	EepromCfg_iap = 3,/*在线升级*/
-	EE_OBJECT_NUM
+	EepromCfg_UartBaudrate = 2/*波特率*/
 }EepromCfg_StrgObject;
 
 typedef enum 

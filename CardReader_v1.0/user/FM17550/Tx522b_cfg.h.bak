@@ -45,8 +45,7 @@ typedef enum
 {
 	Tx522bCfg_AutoDectFlg = 0U,/*卡片自动侦测标志值*/
 	Tx522bCfg_Key = 1U,/*密钥*/
-	Tx522bCfg_BaudRate = 2U,/*串口波特率*/
-	Tx522bCfg_iap = 3U/*在线升级*/
+	Tx522bCfg_BaudRate = 2U/*串口波特率*/
 }Tx522bCfg_StrgObject;
 /******union definitions*****/
 

@@ -262,17 +262,6 @@ static void Tx522b_CmdDeal(void)
 			LeTx_u_Lng = 4U;
 		}
 		break;
-		case EnterBootloader:
-		{
-			LeTx_u_i = 0xaa;
-			(void)Tx522bCfg_WriteEE(Tx522bCfg_iap,&LeTx_u_i,1U);
-			while(1);//重启设备
-			//LaTx_u_SendBuff[1] = COMM_OK;
-			//LaTx_u_SendBuff[2] = 0;/*有效数据0长度*/
-			//LaTx_u_SendBuff[3] = CalTx522b_u_XOR(LaTx_u_SendBuff,3);/*计算校验和*/
-			//LeTx_u_Lng = 4;
-		}
-		break;
 		default:
 		break;
 	}
