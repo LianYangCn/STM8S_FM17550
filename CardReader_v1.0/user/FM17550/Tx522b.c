@@ -384,7 +384,7 @@ static void Tx522b_AutoDetectCard(void)
 static void SendTx522b_CardId(uint8 CardType,uint8  *TagType, uint8  *Sak,uint8 SnrLen,uint8 *Snr)
 {
 	uint8 LeTx_u_i;
-	uint8 LeTx_u_Lng;
+	uint8 LeTx_u_Lng = 0U;
 	uint8 LaTx_u_SendBuff[18U];
 	LaTx_u_SendBuff[0] = 0x00;/*填充发送包号*/
 	LaTx_u_SendBuff[1] = 0x00;/*状态字节*/
@@ -397,23 +397,37 @@ static void SendTx522b_CardId(uint8 CardType,uint8  *TagType, uint8  *Sak,uint8 
 			LaTx_u_SendBuff[4] = TagType[1];
 			LaTx_u_SendBuff[5] = Sak[0];
 			LaTx_u_SendBuff[6] = SnrLen;
-			for(LeTx_u_i = 0U;LeTx_u_i < SnrLen;LeTx_u_i++)
+			if(SnrLen < 8U)
 			{
-				LaTx_u_SendBuff[7 + LeTx_u_i] = Snr[LeTx_u_i];
+				for(LeTx_u_i = 0U;LeTx_u_i < SnrLen;LeTx_u_i++)
+				{
+					LaTx_u_SendBuff[7 + LeTx_u_i] = Snr[LeTx_u_i];
+				}
+				LaTx_u_SendBuff[7+SnrLen] = CalTx522b_u_XOR(LaTx_u_SendBuff,(7+SnrLen));/*计算校验和*/
+				LeTx_u_Lng = 8 + SnrLen;
 			}
-			LaTx_u_SendBuff[7+SnrLen] = CalTx522b_u_XOR(LaTx_u_SendBuff,(7+SnrLen));/*计算校验和*/
-			LeTx_u_Lng = 8 + SnrLen;
+			else
+			{
+				
+			}
 		}
 		break;
         case 1U:/*B卡*/
 		{
-			LaTx_u_SendBuff[2] = SnrLen;/*数据长度*/
-			for(LeTx_u_i = 0U;LeTx_u_i < SnrLen;LeTx_u_i++)
+			if(SnrLen < 14)
 			{
-				LaTx_u_SendBuff[3 + LeTx_u_i] = Snr[LeTx_u_i];
+				LaTx_u_SendBuff[2] = SnrLen;/*数据长度*/
+				for(LeTx_u_i = 0U;LeTx_u_i < SnrLen;LeTx_u_i++)
+				{
+					LaTx_u_SendBuff[3 + LeTx_u_i] = Snr[LeTx_u_i];
+				}
+				LaTx_u_SendBuff[3+SnrLen] = CalTx522b_u_XOR(LaTx_u_SendBuff,(3+SnrLen));/*计算校验和*/
+				LeTx_u_Lng = 4 + SnrLen;
 			}
-			LaTx_u_SendBuff[3+SnrLen] = CalTx522b_u_XOR(LaTx_u_SendBuff,(3+SnrLen));/*计算校验和*/
-			LeTx_u_Lng = 4 + SnrLen;
+			else
+			{
+				
+			}
 		}
 		break;
 		default:
