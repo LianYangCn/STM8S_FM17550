@@ -55,6 +55,8 @@ description： macro definitions
 #define	CHK_WR_COMP_ERR 2 //Check Write:写出错（比较出错）
 #define	COMM_ERR 		0xff //串行通信错误
 #define	MI_WRONG_VALUE 	0x7b //值块格式错误
+#define	COMM_ILLEGAL 	0xfe //非法指令
+
 
 
 /***********宏函数***********/

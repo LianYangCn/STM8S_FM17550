@@ -262,10 +262,16 @@ static void Tx522b_CmdDeal(void)
 			LeTx_u_Lng = 4U;
 		}
 		break;
-		default:
+		default://无效/非法指令
+		{
+			LaTx_u_SendBuff[1] = COMM_ILLEGAL;
+			LaTx_u_SendBuff[2] = 0;/*有效数据0长度*/
+			LaTx_u_SendBuff[3] = CalTx522b_u_XOR(LaTx_u_SendBuff,3);/*计算校验和*/
+			LeTx_u_Lng = 4U;
+		}
 		break;
 	}
-	//(void)Tx522bCfg_WriteEE(Tx522bCfg_AutoDectFlg,&SeTx522b_u_AutoDtctFlag,1U);
+	
 	if(1 == GetTx522bCfg_u_TxIdle())
 	{
 		SetTx522bCfg_TxMsg(LaTx_u_SendBuff,LeTx_u_Lng);
