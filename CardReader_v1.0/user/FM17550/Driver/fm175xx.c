@@ -204,7 +204,7 @@ unsigned char Set_BitMask(unsigned char reg_add,unsigned char mask)
 unsigned char Clear_BitMask(unsigned char reg_add,unsigned char mask)
 {
     unsigned char  result;
-    result=Write_Reg(reg_add,Read_Reg(reg_add) & ~mask);  // clear bit mask
+    result=Write_Reg(reg_add,Read_Reg(reg_add) & (~mask));  // clear bit mask
 	return result;
 }
 /*********************************************/
@@ -425,7 +425,7 @@ unsigned char Pcd_ConfigISOType(unsigned char type)
 		default:
 		break;
 	}
-	Delay100us(5);
+	Delay100us(20);
 	return TRUE;
 }
 /********************************************
