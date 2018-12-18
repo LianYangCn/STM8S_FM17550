@@ -442,7 +442,8 @@ unsigned char Pcd_ConfigISOType(unsigned char type)
 unsigned char  FM175X_SoftReset(void)
 {	
 	Write_Reg(CommandReg,SoftReset);//
-	return	Set_BitMask(ControlReg,0x10);//175xx初始值配置,设置FM17550作为发端
+	//return	Set_BitMask(ControlReg,0x10);//175xx初始值配置,设置FM17550作为发端
+	return 1;
 }
 
 unsigned char FM175X_HardReset(void)

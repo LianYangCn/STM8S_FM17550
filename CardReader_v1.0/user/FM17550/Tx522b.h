@@ -29,6 +29,8 @@ description： macro definitions
 
 #define	SetBaudRate		0x2f/*设置波特率*/
 
+#define	SetConfig		0x52/*config*/
+
 /*定义返回状态*/
 #define COMM_OK 	0 //函数调用成功
 #define NO_TAG_ERR 	1 //在有效区域内没有卡

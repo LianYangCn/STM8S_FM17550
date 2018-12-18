@@ -262,6 +262,15 @@ static void Tx522b_CmdDeal(void)
 			LeTx_u_Lng = 4U;
 		}
 		break;
+		case SetConfig://设置一下读卡芯片
+		{
+			(void)FM175X_SoftReset();
+			LaTx_u_SendBuff[1] = COMM_OK;
+			LaTx_u_SendBuff[2] = 0;/*有效数据0长度*/
+			LaTx_u_SendBuff[3] = CalTx522b_u_XOR(LaTx_u_SendBuff,3);/*计算校验和*/
+			LeTx_u_Lng = 4U;
+		}
+		break;
 		default://无效/非法指令
 		{
 			LaTx_u_SendBuff[1] = COMM_ILLEGAL;
