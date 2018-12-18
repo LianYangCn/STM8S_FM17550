@@ -98,7 +98,14 @@ void UartCmn_Rx_Msg(void)
 				Uart_RecMsg.UartRx.Pckt.UartRxDataLng[0] = Buff;
 				if(Uart_RecMsg.UartRx.Pckt.UartRxDataLng[0] <= UARTCMN_RX_PCKTDATA_LNG)
 				{/*数据长度有效*/
-					Uart_RecMsg.UartHeaderFlag = 4;
+					if(Uart_RecMsg.UartRx.Pckt.UartRxDataLng[0] != 0U)
+					{
+						Uart_RecMsg.UartHeaderFlag = 4;
+					}
+					else
+					{
+						Uart_RecMsg.UartHeaderFlag = 5;
+					}
 				}
 				else/*数据长度错误*/
 				{
