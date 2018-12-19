@@ -33,7 +33,7 @@
 	send_buff[10]=card_uid[2];
 	send_buff[11]=card_uid[3];
 
-	Pcd_SetTimer(1);
+	Pcd_SetTimer(2);
 	Clear_FIFO();
 	result =Pcd_Comm(MFAuthent,send_buff,12,rece_buff,&rece_bitlen);//Authent»œ÷§
 
@@ -90,7 +90,7 @@ unsigned char Mifare_Blockread(unsigned char block,unsigned char *buff)
 {	
 	unsigned char  send_buff[2],result;
 	unsigned int  rece_bitlen;
-	Pcd_SetTimer(1);
+	Pcd_SetTimer(2);
 	send_buff[0]=0x30;//30 ∂¡øÈ
 	send_buff[1]=block;//øÈµÿ÷∑
 	Clear_FIFO();
@@ -112,7 +112,7 @@ unsigned char Mifare_Blockwrite(unsigned char block,unsigned char *buff)
 {	
 	unsigned char  result,send_buff[16],rece_buff[1];
 	unsigned int  rece_bitlen;
-	Pcd_SetTimer(1);
+	Pcd_SetTimer(2);
 	send_buff[0]=0xa0;//a0 –¥øÈ
 	send_buff[1]=block;//øÈµÿ÷∑
 

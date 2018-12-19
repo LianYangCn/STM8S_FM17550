@@ -103,7 +103,7 @@ void Tx522b_MainFunction(void)
 	}
 	else
 	{
-		if(SeTx522b_dw_RcovrAutoDtctT >= 0x0003DFAF)
+		if(SeTx522b_dw_RcovrAutoDtctT >= 0x00030FAF)
 		{
 			SeTx522b_dw_RcovrAutoDtctT = 0U;			
 			SeTx522b_u_AutoDtctFlag = 1U;
@@ -139,6 +139,8 @@ void Tx522b_MainFunction(void)
 	{
 		SeTx522b_dw_DelayTimer = 0U;
 	}
+	
+	FM175X_ExitSoftPowerdown();//设备进入低功耗模式时，退出低功耗
 }
 
 /******************************************************
@@ -264,7 +266,7 @@ static void Tx522b_CmdDeal(void)
 		break;
 		case SetConfig://设置一下读卡芯片
 		{
-			(void)FM175X_SoftReset();
+			//(void)FM175X_SoftReset();
 			LaTx_u_SendBuff[1] = COMM_OK;
 			LaTx_u_SendBuff[2] = 0;/*有效数据0长度*/
 			LaTx_u_SendBuff[3] = CalTx522b_u_XOR(LaTx_u_SendBuff,3);/*计算校验和*/
@@ -373,6 +375,7 @@ static void Tx522b_AutoDetectCard(void)
 	{/*检测到A卡*/
 		SendTx522b_CardId(0U,LaTx_u_TagType,LaTx_u_Sak,RxMsg.Dt.DtSrt.DtLng,&RxMsg.Dt.DtSrt.ValidDt[1]);
 		SeTx522b_u_AutoDtctFlag = 0U;
+        (void)FM175X_SoftReset();
 		return;
 	}
 	
@@ -380,6 +383,7 @@ static void Tx522b_AutoDetectCard(void)
 	{/*检测到B卡*/
 		SendTx522b_CardId(1U,LaTx_u_TagType,LaTx_u_Sak,RxMsg.Dt.DtSrt.DtLng,&RxMsg.Dt.DtSrt.ValidDt[0]);
 		SeTx522b_u_AutoDtctFlag = 0U;	
+        (void)FM175X_SoftReset();
 		return;
 	}
 }

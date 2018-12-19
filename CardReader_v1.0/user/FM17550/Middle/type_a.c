@@ -28,7 +28,7 @@ unsigned char TypeA_Request(unsigned char *pTagType)
 	Clear_BitMask(Status2Reg,0x08);
 	Write_Reg(BitFramingReg,0x07);
 	send_buff[0] = 0x26;
-   	Pcd_SetTimer(1);
+   	Pcd_SetTimer(2);
 	Clear_FIFO();
 	result = Pcd_Comm(Transceive,send_buff,1,rece_buff,&rece_bitlen);
 	if ((result == TRUE) && (rece_bitlen == 2*8))
@@ -60,7 +60,7 @@ unsigned char TypeA_WakeUp(unsigned char *pTagType)
 	Clear_BitMask(Status2Reg,0x08);
 	Write_Reg(BitFramingReg,0x07);
  	send_buff[0] = 0x52;
-   	Pcd_SetTimer(1);
+   	Pcd_SetTimer(2);
 	Clear_FIFO();
 	result = Pcd_Comm(Transceive,send_buff,1,rece_buff,&rece_bitlen);
 
@@ -94,7 +94,7 @@ unsigned char TypeA_Anticollision(unsigned char selcode,unsigned char *pSnr)
  
     send_buff[0] = selcode;
     send_buff[1] = 0x20;             //NVB
-    Pcd_SetTimer(1);
+    Pcd_SetTimer(2);
 	Clear_FIFO();
     result = Pcd_Comm(Transceive,send_buff,2,rece_buff,&rece_bitlen);
 
@@ -137,7 +137,7 @@ unsigned char TypeA_Select(unsigned char selcode,unsigned char *pSnr,unsigned ch
     	send_buff[i+2] = *(pSnr+i);
     }
    	
-	Pcd_SetTimer(1);
+	Pcd_SetTimer(2);
 	Clear_FIFO();
     result = Pcd_Comm(Transceive,send_buff,7,rece_buff,&rece_bitlen);
     
@@ -169,7 +169,7 @@ unsigned char TypeA_Halt(void)
   	Set_BitMask(TxModeReg,0x80);
 	Set_BitMask(RxModeReg,0x80);
     Clear_BitMask(Status2Reg,0x08);
-	Pcd_SetTimer(1);
+	Pcd_SetTimer(2);
 	Clear_FIFO();
     result = Pcd_Comm(Transmit,send_buff,2,rece_buff,&rece_bitlen);
     return result;

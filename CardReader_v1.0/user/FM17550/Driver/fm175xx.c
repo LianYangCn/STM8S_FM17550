@@ -419,7 +419,7 @@ unsigned char Pcd_ConfigISOType(unsigned char type)
 			//Write_Reg(GsNReg,0x83);	
 			//Write_Reg(CWGsPReg,0x10);
 			Write_Reg(GsNOffReg,0x38);
-			Write_Reg(ModGsPReg,0x10);	
+			Write_Reg(ModGsPReg,0x10);
 		}
 		break;
 		default:
@@ -513,4 +513,18 @@ unsigned char Write_Ext_Reg(unsigned char reg_add,unsigned char reg_value)
 	return (Write_Reg(0x0F,0xC0+reg_value));
 }
 
+/*********************************************
+ 函数名：	    FM175X_ExitSoftPowerdown
+ 功能：	    退出低功耗模式
+ 输入参数：	
+ 返回值：	    
 
+ ********************************************/
+void FM175X_ExitSoftPowerdown(void)
+{
+	while((Read_Reg(CommandReg)&0x10))
+	{
+		Clear_BitMask(CommandReg,0x10);//退出低功耗模式
+		Delay100us(20);
+	}
+}

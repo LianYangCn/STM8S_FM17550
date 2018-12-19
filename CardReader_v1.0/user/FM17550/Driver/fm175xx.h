@@ -138,5 +138,5 @@ extern unsigned char FM175X_HardPowerdown(void);
 extern unsigned char Pcd_SetTimer(unsigned long delaytime);
 extern unsigned char Read_Ext_Reg(unsigned char reg_add);
 extern unsigned char Write_Ext_Reg(unsigned char reg_add,unsigned char reg_value);
-
+extern void FM175X_ExitSoftPowerdown(void);
 #endif
