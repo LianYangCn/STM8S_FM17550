@@ -442,6 +442,7 @@ unsigned char Pcd_ConfigISOType(unsigned char type)
 unsigned char  FM175X_SoftReset(void)
 {	
 	Write_Reg(CommandReg,SoftReset);//
+	Delay100us(20);
 	//return	Set_BitMask(ControlReg,0x10);//175xx初始值配置,设置FM17550作为发端
 	return 1;
 }

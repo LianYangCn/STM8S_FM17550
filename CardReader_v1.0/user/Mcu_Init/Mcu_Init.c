@@ -74,7 +74,7 @@ void Mcu_Init(void)
     IWDG_Enable();//使能看门狗 
     IWDG_WriteAccessCmd(IWDG_WriteAccess_Enable);//同意操作独立看门狗
     IWDG_SetPrescaler(IWDG_Prescaler_256);//看门狗预分频
-    IWDG_SetReload(125);//设置看门狗复位时间500ms
+    IWDG_SetReload(80);//设置看门狗复位时间320ms
     IWDG_ReloadCounter();//喂狗
        
    	enableInterrupts();/*全局总中断*/

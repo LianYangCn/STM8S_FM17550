@@ -30,6 +30,7 @@ static uint32  SeTx522b_dw_DelayTimer;
 static uint32  SeTx522b_dw_RcovrAutoDtctT;
 //static unsigned int  SeTx522b_w_Timer;/* 发送数据缓冲区尾指示*/
 //static unsigned char SeTx522b_u_CardOnLineFlg;/* 发送数据缓冲区尾指示*/
+static uint8 	SeTx522b_u_AutoDtcTaskFlag;/*自动侦测卡片任务标志*/
 
 /*******************************************************
 description： function declaration
@@ -64,6 +65,7 @@ void InitTx522b_parameter(void)
 	SeTx522b_dw_RcovrAutoDtctT =0U;
 	SeTx522b_dw_DelayTimer = 0U;
 	SeTx522b_u_AutoDtctFlag = 1U;/*未读到有效值，给默认值--开启自动寻卡*/
+	SeTx522b_u_AutoDtcTaskFlag = 0;
 	//SeTx522b_u_FirstDtctFlag = 0U;
 	//SeTx522b_u_UnDtctCnt = 0U;
 	for(Le_u_i = 0U;Le_u_i < TXBUFF_NUM;Le_u_i++)
@@ -370,21 +372,34 @@ static void Tx522b_AutoDetectCard(void)
 {
 	uint8  LaTx_u_TagType[2];
 	uint8  LaTx_u_Sak[3];
-	
-	if(1U == GetTx522bCfg_u_ACardSnr(RxMsg.Dt.DtSrt.ValidDt[0],LaTx_u_TagType,LaTx_u_Sak,&RxMsg.Dt.DtSrt.DtLng,&RxMsg.Dt.DtSrt.ValidDt[1]))
-	{/*检测到A卡*/
-		SendTx522b_CardId(0U,LaTx_u_TagType,LaTx_u_Sak,RxMsg.Dt.DtSrt.DtLng,&RxMsg.Dt.DtSrt.ValidDt[1]);
-		SeTx522b_u_AutoDtctFlag = 0U;
-        (void)FM175X_SoftReset();
-		return;
-	}
-	
-	if(1U == GetTx522bCfg_u_BCardSnr(&RxMsg.Dt.DtSrt.ValidDt[0],&RxMsg.Dt.DtSrt.DtLng))
-	{/*检测到B卡*/
-		SendTx522b_CardId(1U,LaTx_u_TagType,LaTx_u_Sak,RxMsg.Dt.DtSrt.DtLng,&RxMsg.Dt.DtSrt.ValidDt[0]);
-		SeTx522b_u_AutoDtctFlag = 0U;	
-        (void)FM175X_SoftReset();
-		return;
+	switch(SeTx522b_u_AutoDtcTaskFlag)
+	{
+		case 0:
+		{
+			(void)FM175X_SoftReset();
+			if(1U == GetTx522bCfg_u_ACardSnr(RxMsg.Dt.DtSrt.ValidDt[0],LaTx_u_TagType,LaTx_u_Sak,&RxMsg.Dt.DtSrt.DtLng,&RxMsg.Dt.DtSrt.ValidDt[1]))
+			{/*检测到A卡*/
+				SendTx522b_CardId(0U,LaTx_u_TagType,LaTx_u_Sak,RxMsg.Dt.DtSrt.DtLng,&RxMsg.Dt.DtSrt.ValidDt[1]);
+				SeTx522b_u_AutoDtctFlag = 0U;
+			}
+			SeTx522b_u_AutoDtcTaskFlag = 1;
+		}
+		break;
+		case 1:
+		{
+			(void)FM175X_SoftReset();
+			if(1U == GetTx522bCfg_u_BCardSnr(&RxMsg.Dt.DtSrt.ValidDt[0],&RxMsg.Dt.DtSrt.DtLng))
+			{/*检测到B卡*/
+				SendTx522b_CardId(1U,LaTx_u_TagType,LaTx_u_Sak,RxMsg.Dt.DtSrt.DtLng,&RxMsg.Dt.DtSrt.ValidDt[0]);
+				SeTx522b_u_AutoDtctFlag = 0U;
+			}
+			SeTx522b_u_AutoDtcTaskFlag = 0;
+		}
+		default:
+		{
+			SeTx522b_u_AutoDtcTaskFlag = 0;
+		}
+		break;
 	}
 }
 
