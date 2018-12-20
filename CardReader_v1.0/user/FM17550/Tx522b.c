@@ -105,7 +105,7 @@ void Tx522b_MainFunction(void)
 	}
 	else
 	{
-		if(SeTx522b_dw_RcovrAutoDtctT >= 0x00030FAF)
+		if(SeTx522b_dw_RcovrAutoDtctT >= 0x0002AFAF)
 		{
 			SeTx522b_dw_RcovrAutoDtctT = 0U;			
 			SeTx522b_u_AutoDtctFlag = 1U;
