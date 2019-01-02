@@ -428,6 +428,7 @@ unsigned char Pcd_ConfigISOType(unsigned char type)
 	Delay100us(20);
 	return TRUE;
 }
+
 /********************************************
  函数名：	    FM175X_SoftReset
  功能：	    软复位操作
@@ -438,7 +439,6 @@ unsigned char Pcd_ConfigISOType(unsigned char type)
  返回值：	    TRUE
 			FALSE
  ********************************************/
-
 unsigned char  FM175X_SoftReset(void)
 {	
 	Write_Reg(CommandReg,SoftReset);//
@@ -447,14 +447,24 @@ unsigned char  FM175X_SoftReset(void)
 	return 1;
 }
 
-unsigned char FM175X_HardReset(void)
+/********************************************
+ 函数名：	    FM175X_HardReset
+ 功能：	    硬复位操作
+				
+ 输入参数：	
+				
+
+ 返回值：	    TRUE
+			FALSE
+ ********************************************/
+void FM175X_HardReset(void)
 {	
-	//CD_ClrTPD();
-	Delay100us(1);
-	//CD_SetTPD();
-	Delay100us(1);
-	return TRUE;
+	CD_ClrNPD;
+	Delay100us(20);
+	CD_SetNPD;
+	Delay100us(10);
 }
+
 /*********************************************
  函数名：	    FM175X_SoftPowerdown
  功能：	    软件低功耗操作

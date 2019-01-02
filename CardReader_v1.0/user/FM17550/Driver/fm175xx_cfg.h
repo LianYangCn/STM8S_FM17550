@@ -27,6 +27,9 @@ descriptionï¼macro definitions
 
 
 /***********å®å‡½æ•**********/
+#define CD_ClrNPD		GPIO_WriteLow(GPIOC,GPIO_PIN_4)
+#define CD_SetNPD		GPIO_WriteHigh(GPIOC,GPIO_PIN_4)
+
 
 /*******************************************************
 descriptionï¼struct definitions

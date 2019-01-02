@@ -55,6 +55,8 @@ void Mcu_Init(void)
 	/* GPIO初始化 */
 	Mcu_Init_GPIOConfig();
 	
+	FM175X_HardReset();//FM17550硬复位
+	
 	/* uart初始化 */
 	UART1_DeInit();
 	UART1_Init((uint32_t)9600,UART1_WORDLENGTH_8D,UART1_STOPBITS_1,UART1_PARITY_NO,UART1_SYNCMODE_CLOCK_DISABLE,UART1_MODE_TXRX_ENABLE);

@@ -132,7 +132,7 @@ extern unsigned char Set_BitMask(unsigned char reg_add,unsigned char mask);
 extern unsigned char Clear_BitMask(unsigned char reg_add,unsigned char mask);
 extern unsigned char Pcd_ConfigISOType(unsigned char type);
 extern unsigned char FM175X_SoftReset(void);
-extern unsigned char FM175X_HardReset(void);
+extern void FM175X_HardReset(void);
 extern unsigned char FM175X_SoftPowerdown(void);
 extern unsigned char FM175X_HardPowerdown(void);
 extern unsigned char Pcd_SetTimer(unsigned long delaytime);
